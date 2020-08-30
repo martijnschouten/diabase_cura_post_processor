@@ -6,7 +6,7 @@ import re #To perform the search and replace.
 from ..Script import Script
 import warnings
 
-class DiabaseCleaning(Script):
+class NIFTyDiabasePostProcessor(Script):
     """Performs a search-and-replace on all g-code.
 
     Due to technical limitations, the search can't cross the border between
@@ -15,8 +15,8 @@ class DiabaseCleaning(Script):
 
     def getSettingDataString(self):
         return """{
-            "name": "Diabase cleaning",
-            "key": "DiabaseCleaning",
+            "name": "NIFTy Diabase Post Processor",
+            "key": "NIFTyDiabasePostProcessor",
             "metadata": {},
             "version": 2,
             "settings":
