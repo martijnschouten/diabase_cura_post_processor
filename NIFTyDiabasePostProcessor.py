@@ -171,6 +171,7 @@ class NIFTyDiabasePostProcessor(Script):
             
             
         tool_change = 0
+        passed_initialisation_toolchange = False
         for layer_number, layer in enumerate(data):
             if ((tool_change > 0) and (behaviour == 'Once')):
                 return data
@@ -187,15 +188,19 @@ class NIFTyDiabasePostProcessor(Script):
                 for line_number, layer_line in enumerate(layer_lines):
                     if state == 'found_nothing':
                         if layer_line == 'T'+str(tool_number):
-                            #found the tool change
-                            state = 'found_the_tool_change'
-                            tool_change = tool_change + 1
-                            
-                            if behaviour == 'Interval':
-                                if not ((tool_change % interval ) == 1):
-                                    break
-                            
-                            tool_change_line = line_number
+                            #ignore the first toolchange
+                            if passed_initialisation_toolchange == True:
+                                #found the tool change
+                                state = 'found_the_tool_change'
+                                tool_change = tool_change + 1
+                                
+                                if behaviour == 'Interval':
+                                    if not ((tool_change % interval ) == 1):
+                                        break
+
+                                tool_change_line = line_number
+                            else:
+                                passed_initialisation_toolchange = True
                     elif state == 'found_the_tool_change':
                         #check if there is a extruder heating gcode with a tool number, which would not work since we are moving the toolchange
                         if ((re.search('T1',layer_line) is None) and \
