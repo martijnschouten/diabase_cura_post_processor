@@ -6,6 +6,8 @@ import re #To perform the search and replace.
 from ..Script import Script
 import warnings
 
+from UM.Logger import Logger
+
 class NIFTyDiabasePostProcessor(Script):
     """Performs a search-and-replace on all g-code.
 
