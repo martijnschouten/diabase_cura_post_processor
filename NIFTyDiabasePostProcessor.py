@@ -346,22 +346,27 @@ class NIFTyDiabasePostProcessor(Script):
                         toolchange_retraction_speed = Application.getInstance().getGlobalContainerStack().getProperty("switch_extruder_retraction_speed", "value")
                         toolchange_extrusion_speed = Application.getInstance().getGlobalContainerStack().getProperty("switch_extruder_prime_speed", "value")
                         toolchange_extra_extrusion = Application.getInstance().getGlobalContainerStack().getProperty("switch_extruder_extra_prime_amount", "value")
+                        prime_tower_position_x = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_position_x", "value")
+                        prime_tower_position_y = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_position_y", "value")
+                        prime_tower_size = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_size", "value")
                         
                         Logger.log("i", 'layer_number: ' + str(layer_number))
                         Logger.log("i", 'initial extruder: ' + str(initial_extruder))
                         Logger.log("i", 'tool number: ' + str(tool_number))
-                        toolchange_string = 'M98 P"tprime' + str(tool_number) + 'pre.g" ; move to cleaning station\n' + \
-                                                'G1 E' + str(toolchange_retraction_distance+toolchange_extra_extrusion) + ' F' + str(toolchange_extrusion_speed*60) + '\n' + \
-                                                'M42 P20 S0.75\n' + \
-                                                'G1 E' + str(blob_size) + ' F' + str(blob_speed*60) + '\n' + \
-                                                'M400\n' + \
-                                                'G4 P3000 ;\n' + \
-                                                'M42 P20 S0\n' + \
-                                                'G1 E-' + str(toolchange_retraction_distance) + ' F' + str(toolchange_retraction_speed*60) + '\n' + \
-                                                'M98 P"tprime' + str(tool_number) + 'post.g" ; move back'
-                        if layer_number == 1 and initial_extruder == tool_number:
+                        toolchange_string =     'G1 X' + str(prime_tower_position_x-prime_tower_size/2) + ' Y' + str(prime_tower_position_y+prime_tower_size/2) + ' F6000 ;move to the prime pillar\n' + \
+                                                    'M98 P"tprime' + str(tool_number) + 'pre.g" ; move to cleaning station\n' + \
+                                                    'G1 E' + str(toolchange_retraction_distance+toolchange_extra_extrusion) + ' F' + str(toolchange_extrusion_speed*60) + '\n' + \
+                                                    'M42 P20 S0.75\n' + \
+                                                    'G1 E' + str(blob_size) + ' F' + str(blob_speed*60) + '\n' + \
+                                                    'M400\n' + \
+                                                    'G4 P3000 ;\n' + \
+                                                    'M42 P20 S0\n' + \
+                                                    'G1 E-' + str(toolchange_retraction_distance) + ' F' + str(toolchange_retraction_speed*60) + '\n' + \
+                                                    'M98 P"tprime' + str(tool_number) + 'post.g" ; move back\n'
+                        #cura assumes that at the start of a print the filament is at the tip of the nozzle.
+                        if tool_change == 1:
                             toolchange_string = toolchange_string + \
-                                                '\nG1 E' + str(toolchange_retraction_distance+toolchange_extra_extrusion) + ' F' + str(toolchange_extrusion_speed*60)
+                                                'G1 E' + str(toolchange_retraction_distance+toolchange_extra_extrusion) + ' F' + str(toolchange_extrusion_speed*60)
                         layer_lines.insert(cleaning_line,toolchange_string)
                 #delete the original toolchange.
                 if tool_change_line > -1:                        
