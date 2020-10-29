@@ -57,7 +57,7 @@ class NIFTyDiabasePostProcessor(Script):
                     "description": "How fast the material should be extruded while making a blob",
                     "unit": "mm/s",
                     "type": "float",
-                    "default_value": 30.0,
+                    "default_value": 5.0,
                     "minimum_value": "0",
                     "enabled": "cleaning_T1 != 'Off' and cleaning_style == 'New'"
                 },
@@ -94,7 +94,7 @@ class NIFTyDiabasePostProcessor(Script):
                     "description": "How fast the material should be extruded while making a blob",
                     "unit": "mm/s",
                     "type": "float",
-                    "default_value": 30.0,
+                    "default_value": 5.0,
                     "minimum_value": "0",
                     "enabled": "cleaning_T2 != 'Off' and cleaning_style == 'New'"
                 },
@@ -131,7 +131,7 @@ class NIFTyDiabasePostProcessor(Script):
                     "description": "How fast the material should be extruded while making a blob",
                     "unit": "mm/s",
                     "type": "float",
-                    "default_value": 30.0,
+                    "default_value": 5.0,
                     "minimum_value": "0",
                     "enabled": "cleaning_T3 != 'Off' and cleaning_style == 'New'"
                 },
@@ -168,7 +168,7 @@ class NIFTyDiabasePostProcessor(Script):
                     "description": "How fast the material should be extruded while making a blob",
                     "unit": "mm/s",
                     "type": "float",
-                    "default_value": 30.0,
+                    "default_value": 5.0,
                     "minimum_value": "0",
                     "enabled": "cleaning_T4 != 'Off' and cleaning_style == 'New'"
                 },
@@ -205,7 +205,7 @@ class NIFTyDiabasePostProcessor(Script):
                     "description": "How fast the material should be extruded while making a blob",
                     "unit": "mm/s",
                     "type": "float",
-                    "default_value": 30.0,
+                    "default_value": 5.0,
                     "minimum_value": "0",
                     "enabled": "cleaning_T5 != 'Off' and cleaning_style == 'New'"
                 },
