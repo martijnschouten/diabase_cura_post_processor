@@ -362,11 +362,11 @@ class NIFTyDiabasePostProcessor(Script):
                                                     'G4 P3000 ;\n' + \
                                                     'M42 P20 S0\n' + \
                                                     'G1 E-' + str(toolchange_retraction_distance) + ' F' + str(toolchange_retraction_speed*60) + '\n' + \
-                                                    'M98 P"tprime' + str(tool_number) + 'post.g" ; move back\n'
+                                                    'M98 P"tprime' + str(tool_number) + 'post.g" ; move back'
                         #cura assumes that at the start of a print the filament is at the tip of the nozzle.
                         if tool_change == 1:
                             toolchange_string = toolchange_string + \
-                                                'G1 E' + str(toolchange_retraction_distance+toolchange_extra_extrusion) + ' F' + str(toolchange_extrusion_speed*60)
+                                                '\nG1 E' + str(toolchange_retraction_distance+toolchange_extra_extrusion) + ' F' + str(toolchange_extrusion_speed*60)
                         layer_lines.insert(cleaning_line,toolchange_string)
                 #delete the original toolchange.
                 if tool_change_line > -1:                        
