@@ -9,3 +9,5 @@ Installation instructions for Windows:
 * enable the script under Extensions->post processing-> add a script-> NIFTy diabase post processor
 * go to extensions->DuetRRF and click on add. Fill in you printer name and ip address.
 * use the template.3mf file as template for your prints.
+
+To make use of the new cleaning algorithm. You need to upload the systemconfigfiles.zip to the Diabase. Note that this post processor was written for a machine which has 5 additive tools.
