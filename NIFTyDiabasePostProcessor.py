@@ -224,10 +224,14 @@ class NIFTyDiabasePostProcessor(Script):
 
     def execute(self, data):
         #increase each tool number by one
+        data[0] = 'G28\n' + data[0]
+        
         for layer_number, layer in enumerate(data):
             #start by increasing number 4 and then go down. If one would start at 0 the result would end up as 1
             for i1 in range(4,-1,-1):
                 data[layer_number] = re.sub('T'+str(i1),'T'+str(i1+1), data[layer_number]) #increase all tool numbers by one
+        
+        
         
         cleaning_style = self.getSettingValueByKey("cleaning_style")
         initial_extruder = self.find_initial_extruder(data)
