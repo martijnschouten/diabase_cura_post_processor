@@ -318,17 +318,18 @@ class PauseAtHeight(Script):
                     current_z = self.getValue(line, "Z")
                     Logger.log("w", 'found new current z: ' + str(current_z))
 
-                #calculate layer to pause at
-                if pause_at == "height":
-                    # Ignore if the line is not G1 or G0
-                    if self.getValue(line, "G") == 1 or self.getValue(line, "G") == 0:
-                        # This block is executed once, the first time there is a G
-                        # command, to get the z offset (z for first positive layer)
-                        if not got_first_g_cmd_on_layer_0:
-                            layer_0_z = current_z - initial_layer_height
-                            pause_layer = floor((pause_height-initial_layer_height-layer_0_z+0.0001)/layer_height)+1
-                            Logger.log("w", 'new pause_layer: ' + str(pause_layer))
-                            got_first_g_cmd_on_layer_0 = True
+                ##calculate layer to pause at
+                #if pause_at == "height":
+                #    # Ignore if the line is not G1 or G0
+                #    if self.getValue(line, "G") == 1 or self.getValue(line, "G") == 0:
+                #        # This block is executed once, the first time there is a G
+                #        # command, to get the z offset (z for first positive layer)
+                #        if not got_first_g_cmd_on_layer_0:
+                #            layer_0_z = current_z - initial_layer_height
+                #            pause_layer = floor((pause_height-initial_layer_height-layer_0_z+0.0001)/layer_height)+1
+                #            Logger.log("w", 'new pause_layer: ' + str(pause_layer))
+                #            got_first_g_cmd_on_layer_0 = True
+				#			 Logger.log("w", 'got_first_g_cmd_on_layer_0: ' + str(got_first_g_cmd_on_layer_0))
                         
                   
                 # Pause at layer
