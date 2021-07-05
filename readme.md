@@ -17,3 +17,8 @@ To make use of the new cleaning algorithm. You need to upload the systemconfigfi
 In order to be able to use the linear advance, you should install the linear advance plugin from the cura marketplace. Then copy the linearadvance.py file into the  %appdata%/cura/4.7.0/plugins/LinearAdvanceSettingPlugin/LinearAdvanceSettingPlugin folder.
 
 When working with multi-material prints you probably want to turn off "Automatically drop models to build plate" under Preverences->Configure Cura.
+
+# Acknowledgement
+This work was developed within the Wearable Robotics programme, funded by the Dutch Research Council (NWO)
+
+<img src="https://user-images.githubusercontent.com/6079002/124443163-bd35c400-dd7d-11eb-9fe5-53c3def86459.jpg" width="62" height="100"><img src="https://user-images.githubusercontent.com/6079002/124443273-d3dc1b00-dd7d-11eb-9282-54c56e0f42db.png" width="165" height="100">
