@@ -312,8 +312,14 @@ class NIFTyDiabasePostProcessor(Script):
                                 tool_change = tool_change + 1
                                 
                                 if behaviour == 'Off' or ((tool_change > 0) and (behaviour == 'Once')) or (behaviour == 'Interval' and not ((tool_change % interval ) == 1)) :
-                                    prime_tower_position_x = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_position_x", "value")
-                                    prime_tower_position_y = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_position_y", "value")
+                                    prime_tower_enabled = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_enable", "value")
+                                    #Logger.log("i", 'prime tower enabled 1: ' + str(prime_tower_enabled))
+                                    if prime_tower_enabled:
+                                        prime_tower_position_x = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_position_x", "value")
+                                        prime_tower_position_y = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_position_y", "value")
+                                    else:
+                                        prime_tower_position_x = 0
+                                        prime_tower_position_y = 0
                                     prime_tower_size = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_size", "value")
                                     move_to_prime_pillar = 'G1 X' + str(prime_tower_position_x-prime_tower_size/2) + ' Y' + str(prime_tower_position_y+prime_tower_size/2) + ' F6000 ;move to the prime pillar'
                                     layer_lines.insert(line_number,move_to_prime_pillar)
@@ -347,8 +353,14 @@ class NIFTyDiabasePostProcessor(Script):
                         
                 #insert the cleaning line
                 if cleaning_line > -1:
-                    prime_tower_position_x = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_position_x", "value")
-                    prime_tower_position_y = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_position_y", "value")
+                    prime_tower_enabled = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_enable", "value")
+                    #Logger.log("i", 'prime tower enabled 1: ' + str(prime_tower_enabled))
+                    if prime_tower_enabled:
+                        prime_tower_position_x = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_position_x", "value")
+                        prime_tower_position_y = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_position_y", "value")
+                    else:
+                        prime_tower_position_x = 0
+                        prime_tower_position_y = 0
                     prime_tower_size = Application.getInstance().getGlobalContainerStack().getProperty("prime_tower_size", "value")
                     if cleaning_style == 'Old':
                         toolchange_string = 'G1 X' + str(prime_tower_position_x-prime_tower_size/2) + ' Y' + str(prime_tower_position_y+prime_tower_size/2) + ' F6000 ;move to the prime pillar\n' + \
