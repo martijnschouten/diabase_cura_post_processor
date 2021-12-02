@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Schouten"
+  given-names: "Martijn"
+  orcid: "https://orcid.org/0000-0001-9774-1195"
+- family-names: "Kosmas"
+  given-names: "Dimitrios"
+- family-names: "Krijnen"
+  given-names: "Gijs" 
+  orcid:  "https://orcid.org/0000-0001-9537-7123"
+title: "diabase_cura_post_processor"
+version: 1.0.0
+doi: 10.5281/zenodo.5750025 
+date-released: 2021-12-02
+url: "https://github.com/martijnschouten/diabase_cura_post_processor"
