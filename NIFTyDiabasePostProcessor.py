@@ -24,6 +24,13 @@ class NIFTyDiabasePostProcessor(Script):
             "version": 2,
             "settings":
             {
+                "Z_offset_all": {
+                    "label": "Z offset all tools",
+                    "description": "Additional Z offset for all tools",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.0
+                },
                 "Z_offset_T1": {
                     "label": "Z offset T1",
                     "description": "Additional Z offset T1",
@@ -31,18 +38,67 @@ class NIFTyDiabasePostProcessor(Script):
                     "type": "float",
                     "default_value": 0.0
                 },
+                "Z_offset_T2": {
+                    "label": "Z offset T2",
+                    "description": "Additional Z offset T1",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.0
+                },
+                "Z_offset_T3": {
+                    "label": "Z offset T3",
+                    "description": "Additional Z offset T1",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.0
+                },
+                "Z_offset_T4": {
+                    "label": "Z offset T4",
+                    "description": "Additional Z offset T1",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.0
+                },
+                "Z_offset_T5": {
+                    "label": "Z offset T5",
+                    "description": "Additional Z offset T1",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.0
+                },
+                "Z_offset_T6": {
+                    "label": "Z offset T6",
+                    "description": "Additional Z offset T1",
+                    "unit": "mm",
+                    "type": "float",
+                    "default_value": 0.0
+                }
             }
         }"""
 
     def execute(self, data):
+        #add message confirming that the postprocessor was used
+        data[0] = '; postproccesed using the NIFTy Diabase Post processor\n' + data[0]
+    
         #replace the tool selection command all the way at the beginning with a homing command
+        #and add a tool number to the M104 and M109 commands without a tool number
         layer0_lines = data[1].splitlines()
         #Logger.log("e", 'lines in first layer: ' + str(len(layer0_lines)))
+        initial_extruder = -1
         for i1 in range(len(layer0_lines)):
-            #Logger.log("e", 'First letter: ' + layer0_lines[i1][0])
-            if layer0_lines[i1][0] == 'T':
+            #Logger.log("e", 'First letters: ' + layer0_lines[i1][0:6])
+            #Logger.log("e", 'Initial extruder: ' + str(initial_extruder))
+            if layer0_lines[i1][0] == 'T' and initial_extruder == -1:
+                initial_extruder = int(layer0_lines[i1][1])
                 layer0_lines[i1] = 'G28'
+            
+            if layer0_lines[i1][0:6] == 'M104 S' and initial_extruder > -1:
+                layer0_lines[i1] = layer0_lines[i1][0:4] + ' T'+str(initial_extruder) + layer0_lines[i1][4:]
+            
+            if layer0_lines[i1][0:6] == 'M109 S' and initial_extruder > -1:
+                layer0_lines[i1] = layer0_lines[i1][0:4] + ' T'+str(initial_extruder) + layer0_lines[i1][4:]
                 break
+            
         data[1] = '\n'.join(layer0_lines)
         
         #increase each tool number by one
@@ -51,6 +107,20 @@ class NIFTyDiabasePostProcessor(Script):
             for i1 in range(5,-1,-1):
                 data[layer_number] = re.sub('T'+str(i1),'T'+str(i1+1), data[layer_number]) #increase all tool numbers by one
         
-        data[0] = '; postproccesed using the NIFTy Diabase Post processor\n' + data[0]
-
+        Z_offset_all = float(self.getSettingValueByKey("Z_offset_all"))
+        Z_offset_T1 = float(self.getSettingValueByKey("Z_offset_T1"))
+        Z_offset_T2 = float(self.getSettingValueByKey("Z_offset_T2"))
+        Z_offset_T3 = float(self.getSettingValueByKey("Z_offset_T3"))
+        Z_offset_T4 = float(self.getSettingValueByKey("Z_offset_T4"))
+        Z_offset_T5 = float(self.getSettingValueByKey("Z_offset_T5"))
+        Z_offset_T6 = float(self.getSettingValueByKey("Z_offset_T6"))
+        z_offsets = [Z_offset_T1, Z_offset_T2, Z_offset_T3, Z_offset_T4, Z_offset_T5, Z_offset_T6]
+        for layer_number, layer in enumerate(data):
+            for i1 in range(6):
+                layer_lines = data[layer_number].splitlines()
+                for line_number, layer_line in enumerate(layer_lines):
+                    if layer_line == 'T' + str(i1+1):
+                        baby_step_line = 'M290 S' + str(Z_offset_all+z_offsets[i1]) + ' R0'
+                        layer_lines = layer_lines.insert(line_number,baby_step_line)
+                data[layer_number] = '\n'.join(layer_lines)
         return data
