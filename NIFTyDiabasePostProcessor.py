@@ -119,8 +119,10 @@ class NIFTyDiabasePostProcessor(Script):
             for i1 in range(6):
                 layer_lines = data[layer_number].splitlines()
                 for line_number, layer_line in enumerate(layer_lines):
-                    if layer_line == 'T' + str(i1+1):
+                    #if layer_number<5:
+                    #    Logger.log("e", 'layer_line: ' + layer_line)
+                    if layer_line[0:2] == 'T' + str(i1+1):
                         baby_step_line = 'M290 S' + str(Z_offset_all+z_offsets[i1]) + ' R0'
-                        layer_lines = layer_lines.insert(line_number,baby_step_line)
+                        layer_lines.insert(line_number+1,baby_step_line)
                 data[layer_number] = '\n'.join(layer_lines)
         return data
