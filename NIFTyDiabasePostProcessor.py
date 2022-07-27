@@ -115,14 +115,17 @@ class NIFTyDiabasePostProcessor(Script):
         Z_offset_T5 = float(self.getSettingValueByKey("Z_offset_T5"))
         Z_offset_T6 = float(self.getSettingValueByKey("Z_offset_T6"))
         z_offsets = [Z_offset_T1, Z_offset_T2, Z_offset_T3, Z_offset_T4, Z_offset_T5, Z_offset_T6]
+        last_offset = 99999999
         for layer_number, layer in enumerate(data):
-            for i1 in range(6):
-                layer_lines = data[layer_number].splitlines()
-                for line_number, layer_line in enumerate(layer_lines):
+            
+            layer_lines = data[layer_number].splitlines()
+            for line_number, layer_line in enumerate(layer_lines):
+                for i1 in range(6):
                     #if layer_number<5:
                     #    Logger.log("e", 'layer_line: ' + layer_line)
-                    if layer_line[0:2] == 'T' + str(i1+1):
-                        baby_step_line = 'M290 S' + str(Z_offset_all+z_offsets[i1]) + ' R0'
+                    if layer_line[0:2] == 'T' + str(i1+1) and last_offset!=Z_offset_all+z_offsets[i1]:
+                        baby_step_line = 'M290 S%0.3f R0'%(Z_offset_all+z_offsets[i1])
                         layer_lines.insert(line_number+1,baby_step_line)
+                        last_offset = Z_offset_all+z_offsets[i1]
                 data[layer_number] = '\n'.join(layer_lines)
         return data
