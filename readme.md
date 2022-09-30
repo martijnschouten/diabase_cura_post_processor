@@ -7,7 +7,7 @@ Installation instructions for Windows:
 * Copy the file "NIFTyDiabasePostProcessor.py" inside the scripts/ folder.
 * Install the Duet RepRapFirmware Integration plugin.
 * Restart cura.
-* Use the H4052_template.3mf file as template for your prints on the diabase 52.
+* Use the template.3mf file as template for your prints.
 * Go to Manage Printers and select your diabase printer profile. Then click on connect Duet RepRapFirmware. Then fill in the IP-adress of your printer.
 
 When working with multi-material prints you probably want to turn off "Automatically drop models to build plate" under Preverences->Configure Cura.
